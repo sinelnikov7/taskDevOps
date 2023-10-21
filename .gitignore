@@ -1,3 +1,3 @@
 /venv/
-flaskapp/__pycache__/service.cpython-310.pyc
-/.idea
+flaskapp/__pycache__/
+/.idea/
