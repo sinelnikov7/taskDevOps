@@ -9,7 +9,7 @@ def post_alarm(request: dict) -> dict:
     data = request
     r.hmset(f"alarm_{value}", data)
     r.hgetall(value)
-    response = {'id': value, 'time': request['time'], 'number_of_bytes': request['number_of_bytes']}
+    response = {'id': value, 'time': request.get('time'), 'number_of_bytes': request.get('number_of_bytes')}
     return response
 
 def get_alarms() -> list:
@@ -18,7 +18,7 @@ def get_alarms() -> list:
     for i in r.scan_iter("alarm*"):
         alarm_id = str(i).split('alarm_')[1]
         print(r.hgetall(i), i)
-        alarm = {"id": alarm_id, "time": r.hgetall(i)["time"], "number_of_bytes": r.hgetall(i)["number_of_bytes"]}
+        alarm = {"id": alarm_id, "time": r.hgetall(i).get("time"), "number_of_bytes": r.hgetall(i).get("number_of_bytes")}
         response.append(alarm)
     return response
 
@@ -27,5 +27,5 @@ def update_alarm(alarm_id: str, request: dict) -> dict:
     alarm_id = alarm_id
     data = request
     r.hmset(f"alarm_{alarm_id}", data)
-    response = {'id': alarm_id, 'time': request['time'], 'number_of_bytes': request['number_of_bytes']}
+    response = {'id': alarm_id, 'time': request.get('time'), 'number_of_bytes': request.get('number_of_bytes')}
     return response
